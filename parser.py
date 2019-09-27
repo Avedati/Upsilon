@@ -1,16 +1,55 @@
+"""
+  class Parser
+  
+  This class represents our parser.
+"""
 class Parser:
 
+    """
+      Parser.__init__(self, content)
+      
+      This function is called whenever a new instance of the Parser class is created.
+      
+      @param self This instance of the Parser class.
+      @param content The text content (grabbed from a website using urllib).
+    """
     def __init__(self, content):
         self.content = content
         self.pos = 0
 
+    """
+      Parser.discard_while(self, test)
+      
+      This function skips past characters in our content string
+      while the test function is true.
+      
+      @param self This instance of the Parser class.
+      @param test The test function (will return True or False when provided with the current character).
+    """
     def discard_while(self, test):
         while self.pos < len(self.content) and test(self.content[self.pos]):
             self.pos += 1
 
+    """
+      Parser.discard_spaces(self)
+      
+      This function skips characters until the current character is not a space (or newline or tab).
+      
+      @param self This instance of the Parser class.
+    """
     def discard_spaces(self):
         self.discard_while(lambda c: c.isspace())
 
+    """
+      Parser.record_while(self)
+      
+      This function append characters in our content string to a new string
+      while the test function is true.
+      
+      @param self This instance of the Parser class.
+      @param test The test function (will return True or False when provided with the current character).
+      @return The new string.
+    """
     def record_while(self, test):
         recorded_string = ''
         while self.pos < len(self.content) and test(self.content[self.pos]):
@@ -19,6 +58,15 @@ class Parser:
 
         return recorded_string
 
+    """
+      Parser.cleanup(self, string)
+      
+      This function removes extraneous spaces from a string.
+      
+      @param self This instance of the Parser class.
+      @param string The string to clean up.
+      @return The cleaned up string.
+    """
     def cleanup(self, string):
         cleaned_up_string = ''
         parts = list(string)
@@ -33,6 +81,14 @@ class Parser:
 
         return cleaned_up_string.strip()
 
+    """
+      Parser.parse(self)
+      
+      This function will parse the html string, and will return text elements (considered relevent for now).
+      
+      @param self This instance of the Parser class.
+      @return A list of recorded strings from text elements.
+    """
     def parse(self):
         recorded_strings = []
         discard_next_string = False
