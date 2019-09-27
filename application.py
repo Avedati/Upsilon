@@ -5,8 +5,22 @@ from urllib.request import urlopen
 from parser import Parser
 
 # https://pythonspot.com
+"""
+  class Application(QWidget)
+  
+  This class represents our application.
+"""
 class Application(QWidget):
 
+    """
+      Application.__init__(self)
+      
+      This function is called whenever a new application is created.
+      We will use this function to setup our properties (width, height, position,
+      title, etc.). Then, we will call our UI setup function.
+      
+      @param self This instance of the Application class.
+    """
     def __init__(self):
         super().__init__()
         self.content = ['']
@@ -20,6 +34,15 @@ class Application(QWidget):
         self.height = 680
         self.initUI()
 
+    """
+      Application.btn_1_pressed(self)
+      
+      This function is called whenever our first button is pressed.
+      When this happens, we will move to the previous string (from the parsed html)
+      and set our label's text to that string.
+      
+      @param self This instance of the Application class.
+    """
     def btn_1_pressed(self):
         if len(self.content) > 0:
             self.pos -= 1
@@ -28,11 +51,31 @@ class Application(QWidget):
 
             self.labl.setText(self.content[self.pos])
 
+    """
+      Application.btn_2_pressed(self)
+      
+      This function is called whenever our second button is pressed.
+      When this happens, we will move to the next string (from the parsed html)
+      and set our label's text to that string.
+      
+      @param self This instance of the Application class.
+    """
     def btn_2_pressed(self):
         if len(self.content) > 0:
             self.pos = (self.pos + 1) % len(self.content)
             self.labl.setText(self.content[self.pos])
 
+    """
+      Application.return_typed(self)
+      
+      This function is called whenever we press the return key in our
+      text field. We will use urllib to grab the html content from
+      the website the user typed in the text field. We will parse
+      the html content and set the label's text to the first parsed
+      lexeme.
+      
+      @param self This instance of Application class.
+    """
     def return_typed(self):
         url = self.text.text()
         page = urlopen(url)
@@ -45,6 +88,14 @@ class Application(QWidget):
 
         self.labl.setText(self.content[self.pos])
 
+    """
+      Application.initUI(self)
+      
+      This function is used to setup the geometry and other properties
+      of our GUI.
+      
+      @param self This instance of the Application class.
+    """
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
